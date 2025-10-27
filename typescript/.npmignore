@@ -1,0 +1,57 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Tests
+**/*.test.ts
+**/*.spec.ts
+test/
+tests/
+__tests__/
+coverage/
+
+# Configuration files
+tsconfig.json
+tslint.json
+.eslintrc*
+.prettierrc*
+.babelrc*
+jest.config.js
+*.config.js
+
+# Development and CI
+.github/
+.travis.yml
+.gitlab-ci.yml
+.circleci/
+.vscode/
+.idea/
+.editorconfig
+
+# Git files
+.git/
+.gitignore
+
+# Documentation
+docs/
+*.md
+!README.md
+!LICENSE.md
+
+# Examples and demos
+examples/
+demo/
+sample/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Misc
+.DS_Store
+node_modules/
+.env*
+*.tgz
+.npmrc
