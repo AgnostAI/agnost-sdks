@@ -19,36 +19,8 @@ The system consists of several components:
 - **Databases**: ClickHouse for analytics data
 - **Dashboard**: React-based admin UI
 - **Grafana**: Pre-built dashboards for advanced analytics (in progress)
-- **SDKs**: Client libraries for JavaScript and Python
+- **SDK (Current Repository)**: Client libraries for JavaScript, Python and Golang
 
-## Getting Started
-
-### Prerequisites
-
-- Docker and Docker Compose
-- Node.js 16+ (for local development)
-- Go 1.18+ (for local development)
-
-### Setup
-
-1. Clone the repository
-   ```
-   git clone https://github.com/AgnostAI/agnostai.git
-   cd agnostai
-   ```
-
-2. Configure environment variables
-   ```
-   cp backend/.env.example backend/.env
-   cp dashboard/.env.example dashboard/.env
-   ```
-
-3. Start the services
-   ```
-   docker-compose up -d
-   ```
-
-4. Access the dashboard at `http://localhost:3000`
 
 ## SDK Usage
 
@@ -122,24 +94,46 @@ track(server, 'YOUR_ORGANIZATION_ID', config(
 ))
 ```
 
-## API Endpoints
+### Go
 
-### SDK API Endpoints
+```golang
+import "github.com/agnostai/agnost-go/agnost"
 
-- `POST /api/v1/capture-session` - Start a new session
-- `POST /api/v1/capture-event` - Record an event
+// With custom configuration
+err := agnost.Track(s, "your_org_id", &agnost.Config{
+    Endpoint:      "https://api.agnost.ai",
+    DisableInput:  false,
+    DisableOutput: false,
+})
+```
 
-### Dashboard API Endpoints
+#### Go with User Identification
 
-- `GET /dashboard/api/profile` - Get user profile
-- `GET /dashboard/api/organizations` - Get user organizations
-- `POST /dashboard/api/create-organization` - Create a new organization
-- `POST /dashboard/api/add-user-to-organization` - Add a user to an organization
-- `POST /dashboard/api/generate-api-key` - Generate a new API key
-- `GET /dashboard/api/dashboard` - Get dashboard metrics
-- `GET /dashboard/api/user-stories` - Get user session stories
-- `GET /dashboard/api/tool-stats` - Get tool usage statistics
-- `GET /dashboard/api/errors` - Get error statistics
+```golang
+import (
+    "github.com/agnostai/agnost-go/agnost"
+    "net/http"
+)
+
+// Track with user identification
+err := agnost.Track(s, "your-org-id", &agnost.Config{
+    Identify: func(req *http.Request, env map[string]string) *agnost.UserIdentity {
+        userID := req.Header.Get("x-user-id")
+        if userID == "" {
+            userID = env["USER_ID"]
+        }
+        if userID == "" {
+            userID = "anonymous"
+        }
+
+        return &agnost.UserIdentity{
+            UserID: userID,
+            Email:  req.Header.Get("x-user-email"),
+            Role:   req.Header.Get("x-user-role"),
+        }
+    },
+})
+```
 
 ## Contributing
 
