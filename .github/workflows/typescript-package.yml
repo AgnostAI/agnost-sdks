@@ -20,15 +20,15 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        working-directory: sdks/typescript
+        working-directory: typescript
         run: npm ci
 
       - name: Build package
-        working-directory: sdks/typescript
+        working-directory: typescript
         run: npm run build
 
       - name: Publish to npm
-        working-directory: sdks/typescript  
+        working-directory: typescript  
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
