@@ -235,6 +235,15 @@ export class AgnostAnalytics {
         return;
       }
 
+      // Check if client info is available before creating session
+      const lowLevelServer = (server as any)?.server || server;
+      const hasClientInfo = lowLevelServer?.getClientVersion?.()?.name || (lowLevelServer as any)?._clientVersion?.name;
+
+      if (!hasClientInfo) {
+        logger.info('Skipping initial session creation - client info not yet available (will create on first tool call)');
+        return;
+      }
+
       const sessionKey = this.sessionManager.getSessionKey(server);
       const sessionId = await this.sessionManager.startSession(server, sessionKey);
 
