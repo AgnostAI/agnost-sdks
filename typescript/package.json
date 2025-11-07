@@ -1,6 +1,6 @@
 {
   "name": "agnost",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Analytics SDK for Model Context Protocol Servers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
